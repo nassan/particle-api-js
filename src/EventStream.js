@@ -47,7 +47,10 @@ class EventStream extends EventEmitter {
 					res.on('end', () => {
 						try {
 							body = JSON.parse(body);
-						} finally {
+						} catch (e) {
+							// don't bother doing anything special if the JSON.parse fails
+							// since we are already about to reject the promise anyway
+ 						} finally {
 							this.emit('response', {
 								statusCode,
 								body
